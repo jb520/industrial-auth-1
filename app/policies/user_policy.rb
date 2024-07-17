@@ -15,4 +15,21 @@ class UserPolicy
       !user.private? ||
       user.followers.include?(current_user)
   end
+
+  def create?
+    true
+  end
+
+  def update?
+    user == current_user
+  end
+
+  def edit?
+    update?
+  end
+
+  def destroy?
+    update?
+  end
+
 end
