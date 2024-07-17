@@ -6,6 +6,10 @@ class UserPolicy
     @user = user
   end
 
+  def feed?
+    true
+  end
+
   def show?
     user == current_user ||
       !user.private? ||
