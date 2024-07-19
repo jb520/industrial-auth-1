@@ -1,7 +1,6 @@
 class PhotosController < ApplicationController
   before_action :set_photo, only: %i[ show edit update destroy ]
   before_action :ensure_current_user_is_owner, only: [:destroy, :update, :edit]
-  before_action :ensure_user_is_authorized, only: [:show]
   before_action{ authorize(@photo || Photo)}
   # GET /photos or /photos.json
   def index
@@ -10,7 +9,6 @@ class PhotosController < ApplicationController
 
   # GET /photos/1 or /photos/1.json
   def show
-    authorize @photo
   end
 
   # GET /photos/new
@@ -72,11 +70,6 @@ class PhotosController < ApplicationController
       end
     end
 
-    def ensure_user_is_authorized
-      if !PhotoPolicy.new(current_user, @photo).show?
-        raise Pundit::NotAuthorizedError, "not allowed"
-      end
-    end
 
     # Only allow a list of trusted parameters through.
     def photo_params
