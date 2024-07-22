@@ -7,7 +7,7 @@ class UserPolicy
   end
 
   def feed?
-    true
+    update?
   end
 
   def show?
@@ -30,6 +30,14 @@ class UserPolicy
 
   def destroy?
     update?
+  end
+
+  def discover?
+    update?
+  end
+
+  def show_photos?
+    user == current_user || !user.private? || user.followers.include?(current_user) || current_user.followers.include?(user)
   end
 
 end
